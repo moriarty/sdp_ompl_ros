@@ -1,4 +1,4 @@
 # The environment information
 #
 Bounds bounds
-obstacle[] obstacles
+Obstacle[] obstacles
