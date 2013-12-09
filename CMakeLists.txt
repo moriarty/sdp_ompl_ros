@@ -50,6 +50,7 @@ add_message_files(
    FILES
    Bound.msg
    Bounds.msg
+   Event.msg
    Obstacle.msg
    Path.msg
    PlanningEnvironment.msg
