@@ -22,6 +22,8 @@ def planning_client():
     try:
         generic_planner = rospy.ServiceProxy('generic_plannin_server', GetPlan)
         plan = generic_planner()
+    except rospy.ServiceException, e:
+        print ""
 
 
 if __name__ == '__main__':
