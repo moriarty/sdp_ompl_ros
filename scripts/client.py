@@ -73,7 +73,7 @@ def main():
         publish_problem(problem_pub, "HELLO WORLD")
         
         
-        rospy.sleep(1.0)
+        rospy.sleep(10.0)
 
 
 
