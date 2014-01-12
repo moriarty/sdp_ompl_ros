@@ -1,10 +1,4 @@
 #!/usr/bin/env python
-
-PKG = 'sdp_ompl_ros'
-
-import roslib
-roslib.load_manifest(PKG)
-
 import sys
 import rospy
 
@@ -14,7 +8,10 @@ from sdp_ompl_ros.msg import PlanningEnvironment
 from sdp_ompl_ros.msg import PlanningProblem
 from sdp_ompl_ros.srv import GetPlan
 from geometry_msgs.msg import Pose2D
+
 from KinematicCarMultiPlanner import KinematicCarMultiPlanner
+#import ompl_gui as ompl_g
+
 import StringIO as StrIO
 import numpy as np
 from ompl import base as ob

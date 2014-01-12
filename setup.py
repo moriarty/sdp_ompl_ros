@@ -4,8 +4,9 @@ from distutils.core import setup
 from catkin_pkg.python_setup import generate_distutils_setup
 
 d = generate_distutils_setup(
-    packages=['ompl_gui', 'ompl_demo'],
-    package_dir{'': 'src'},
+    packages=['ompl_demo','ompl_gui'],
+    package_dir{'ompl_demo': './src',
+                'ompl_gui': './src'},
     requires=['genpy', 'numpy', 'roslib', 'rospkg']
 )
 
