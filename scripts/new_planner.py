@@ -35,15 +35,7 @@ class RRTPlanner:
         rospy.spin()
 
     def handle_planning_request(self, req):
-        print "some planning whould happen here"
-        try:
-            self.i
-        except:
-            self.i = 0
-        else:
-            self.i += 1
-        print self.i
-
+        # This could be a problem. 
         problem = rospy.wait_for_message('planning_problem', PlanningProblem)
         env = rospy.wait_for_message('planning_environment', PlanningEnvironment)
 
