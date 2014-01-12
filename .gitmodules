@@ -1,0 +1,6 @@
+[submodule "src/ompl_gui"]
+	path = src/ompl_gui
+	url = git@github.com:moriarty/libsdp_ompl_gui
+[submodule "src/ompl_demo"]
+	path = src/ompl_demo
+	url = git@github.com:moriarty/libsdp_ompl_demo
