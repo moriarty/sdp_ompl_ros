@@ -68,6 +68,6 @@ class AllPlanners:
 
 
 
-if __name__ == '__main__':AllPlanners
+if __name__ == '__main__':
     planner = AllPlanners()
     planner.subscribe_to_requests('planning_req_event')
