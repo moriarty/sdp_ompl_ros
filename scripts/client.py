@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-PKG = 'sdp_ompl_ros'
+#PKG = 'sdp_ompl_ros'
 
-import roslib
-roslib.load_manifest(PKG)
+#import roslib
+#roslib.load_manifest(PKG)
 
 import sys
 import rospy
