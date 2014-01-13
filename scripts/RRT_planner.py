@@ -1,11 +1,4 @@
 #!/usr/bin/env python
-
-PKG = 'sdp_ompl_ros'
-
-import roslib
-roslib.load_manifest(PKG)
-
-import sys
 import rospy
 
 from sdp_ompl_ros.msg import Event
@@ -14,7 +7,10 @@ from sdp_ompl_ros.msg import PlanningEnvironment
 from sdp_ompl_ros.msg import PlanningProblem
 from sdp_ompl_ros.srv import GetPlan
 from geometry_msgs.msg import Pose2D
-from KinematicCarMultiPlanner import KinematicCarMultiPlanner
+
+#from KinematicCarMultiPlanner import KinematicCarMultiPlanner
+import ompl_demo as ompl_d
+
 import StringIO as StrIO
 import numpy as np
 from ompl import base as ob
@@ -28,7 +24,7 @@ class RRTPlanner:
     def __init__(self):
         rospy.init_node('rrt_planner_server')
         self.path_pub = rospy.Publisher('rrt_solution_path', Path)
-        self.demo = KinematicCarMultiPlanner()
+        self.demo = ompl_d.KinematicCarMultiPlanner()
 
     def subscribe_to_requests(self, topic):
         rospy.Subscriber(topic, Event, self.handle_planning_request)
@@ -47,7 +43,7 @@ class RRTPlanner:
         self.demo.setGoal(x=goal.x, y=goal.y, yaw=start.theta)
         self.demo.setBounds(high=[upper.x, upper.y], low=[lower.x, lower.y])
         self.demo.setRRTPlanner()
-        
+
         if self.demo.solve(TIME):
             path = self.demo.getPath()
             data = np.loadtxt(StrIO.StringIO(path.printAsMatrix()))
@@ -61,8 +57,6 @@ class RRTPlanner:
         path = Path(poses)
         pub.publish(path)
         rospy.loginfo("Path Published")  
-
-
 
 if __name__ == '__main__':
     planner = RRTPlanner()

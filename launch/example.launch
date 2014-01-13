@@ -1,4 +1,4 @@
 <launch>
-    <node name="rrtplanner" pkg="sdp_ompl_ros" type="new_planner.py" />
+    <node name="rrtplanner" pkg="sdp_ompl_ros" type="RRT_planner.py" />
     <node name="client" pkg="sdp_ompl_ros" type="client.py" />
 </launch>
