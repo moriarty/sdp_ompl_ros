@@ -1,11 +1,4 @@
 #!/usr/bin/env python
-
-PKG = 'sdp_ompl_ros'
-
-import roslib
-roslib.load_manifest(PKG)
-
-import sys
 import rospy
 
 from sdp_ompl_ros.msg import Event
@@ -14,7 +7,9 @@ from sdp_ompl_ros.msg import PlanningEnvironment
 from sdp_ompl_ros.msg import PlanningProblem
 from sdp_ompl_ros.srv import GetPlan
 from geometry_msgs.msg import Pose2D
-from KinematicCarMultiPlanner import KinematicCarMultiPlanner
+
+import ompl_demo as ompl_d
+
 import StringIO as StrIO
 import numpy as np
 from ompl import base as ob
@@ -28,7 +23,7 @@ class ESTPlanner:
     def __init__(self):
         rospy.init_node('est_planner_server')
         self.path_pub = rospy.Publisher('est_solution_path', Path)
-        self.demo = KinematicCarMultiPlanner()
+        self.demo = ompl_d.KinematicCarMultiPlanner()
 
     def subscribe_to_requests(self, topic):
         rospy.Subscriber(topic, Event, self.handle_planning_request)

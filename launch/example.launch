@@ -1,4 +1,7 @@
 <launch>
     <node name="rrtplanner" pkg="sdp_ompl_ros" type="RRT_planner.py" />
+    <node name="estplanner" pkg="sdp_ompl_ros" type="EST_planner.py" />
+    <node name="kpiece1planner" pkg="sdp_ompl_ros" type="KPIECE1_planner.py" />
+    <node name="pdstplanner" pkg="sdp_ompl_ros" type="PDST_planner.py" />
     <node name="client" pkg="sdp_ompl_ros" type="client.py" />
 </launch>

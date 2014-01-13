@@ -8,7 +8,6 @@ from sdp_ompl_ros.msg import PlanningProblem
 from sdp_ompl_ros.srv import GetPlan
 from geometry_msgs.msg import Pose2D
 
-#from KinematicCarMultiPlanner import KinematicCarMultiPlanner
 import ompl_demo as ompl_d
 
 import StringIO as StrIO
