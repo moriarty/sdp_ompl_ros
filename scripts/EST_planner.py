@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 import rospy
 
+# messages and services
 from sdp_ompl_ros.msg import Event
 from sdp_ompl_ros.msg import Path
 from sdp_ompl_ros.msg import PlanningEnvironment
 from sdp_ompl_ros.msg import PlanningProblem
-from sdp_ompl_ros.srv import GetPlan
 from geometry_msgs.msg import Pose2D
+from sdp_ompl_ros.srv import GetPlan
 
+# Config
+from dynamic_reconfigure.server import Server as DynamicReconfigureServer
+from sdp_ompl_ros.cfg import est_planner_paramsConfig as ESTConfig
+
+# custom libraries
 import ompl_demo as ompl_d
 
+# Standard Python Libraries
 import StringIO as StrIO
 import numpy as np
 from ompl import base as ob
@@ -21,9 +28,16 @@ TIME = 1.0
 
 class ESTPlanner:
     def __init__(self):
-        rospy.init_node('est_planner_server')
         self.path_pub = rospy.Publisher('est_solution_path', Path)
+        #self.goal_bias = None
+        #self.range = None
+        self.server = DynamicReconfigureServer(ESTConfig, self.reconfigure)
         self.demo = ompl_d.KinematicCarMultiPlanner()
+
+    def reconfigure(self, config, level):
+        self.goal_bias = config["goal_bias"]
+        self.range = config["range"]
+        return config
 
     def subscribe_to_requests(self, topic):
         rospy.Subscriber(topic, Event, self.handle_planning_request)
@@ -41,7 +55,7 @@ class ESTPlanner:
         self.demo.setStart(x=start.x, y=start.y, yaw=start.theta)
         self.demo.setGoal(x=goal.x, y=goal.y, yaw=start.theta)
         self.demo.setBounds(high=[upper.x, upper.y], low=[lower.x, lower.y])
-        self.demo.setESTPlanner()
+        self.demo.setESTPlanner(goal_bias=self.goal_bias, r=self.range)
         
         if self.demo.solve(TIME):
             path = self.demo.getPath()
@@ -60,5 +74,6 @@ class ESTPlanner:
 
 
 if __name__ == '__main__':
+    rospy.init_node('est_planner_server')
     planner = ESTPlanner()
     planner.subscribe_to_requests('planning_req_event')

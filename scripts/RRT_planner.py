@@ -1,15 +1,22 @@
 #!/usr/bin/env python
 import rospy
 
+# messages and services
 from sdp_ompl_ros.msg import Event
 from sdp_ompl_ros.msg import Path
 from sdp_ompl_ros.msg import PlanningEnvironment
 from sdp_ompl_ros.msg import PlanningProblem
-from sdp_ompl_ros.srv import GetPlan
 from geometry_msgs.msg import Pose2D
+from sdp_ompl_ros.srv import GetPlan
 
+# Config
+from dynamic_reconfigure.server import Server as DynamicReconfigureServer
+from sdp_ompl_ros.cfg import rrt_planner_paramsConfig as RRTConfig
+
+# custom libraries
 import ompl_demo as ompl_d
 
+# Standard Python Libraries
 import StringIO as StrIO
 import numpy as np
 from ompl import base as ob
@@ -21,9 +28,13 @@ TIME = 1.0
 
 class RRTPlanner:
     def __init__(self):
-        rospy.init_node('rrt_planner_server')
         self.path_pub = rospy.Publisher('rrt_solution_path', Path)
+        self.server = DynamicReconfigureServer(RRTConfig, self.reconfigure)
         self.demo = ompl_d.KinematicCarMultiPlanner()
+
+    def reconfigure(self, config, level):
+        self.goal_bias = config["goal_bias"]
+        return config
 
     def subscribe_to_requests(self, topic):
         rospy.Subscriber(topic, Event, self.handle_planning_request)
@@ -41,7 +52,7 @@ class RRTPlanner:
         self.demo.setStart(x=start.x, y=start.y, yaw=start.theta)
         self.demo.setGoal(x=goal.x, y=goal.y, yaw=start.theta)
         self.demo.setBounds(high=[upper.x, upper.y], low=[lower.x, lower.y])
-        self.demo.setRRTPlanner()
+        self.demo.setRRTPlanner(goal_bias=self.goal_bias)
 
         if self.demo.solve(TIME):
             path = self.demo.getPath()
@@ -58,5 +69,6 @@ class RRTPlanner:
         rospy.loginfo("Path Published")  
 
 if __name__ == '__main__':
+    rospy.init_node('rrt_planner_server')
     planner = RRTPlanner()
     planner.subscribe_to_requests('planning_req_event')
