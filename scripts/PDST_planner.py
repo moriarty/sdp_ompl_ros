@@ -58,8 +58,8 @@ class PDSTPlanner:
         if self.demo.solve(TIME):
             path = self.demo.getPath()
             data = np.loadtxt(StrIO.StringIO(path.printAsMatrix()))
-            print data[0:2,:]
-            print data[-2:,:]
+            print data[0:2, :]
+            print data[-2:, :]
             self.publish_path(self.path_pub, data)
 
     def publish_path(self, pub, data):
