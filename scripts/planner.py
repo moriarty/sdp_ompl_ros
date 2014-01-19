@@ -42,8 +42,8 @@ def handle_planning_request(req):
     if demo.solve(TIME):
         path = demo.getPath()
         data = np.loadtxt(StrIO.StringIO(path.printAsMatrix()))
-        print data[0:2,:]
-        print data[-2:,:]
+        print data[0:2, :]
+        print data[-2:, :]
 
 
 
