@@ -1,0 +1,4 @@
+ - builder: doxygen
+   homepage: http://mas-group.github.io/sdp_ws2013_ompl
+   tab_size: 4
+
